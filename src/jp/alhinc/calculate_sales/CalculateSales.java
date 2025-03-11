@@ -142,8 +142,10 @@ public class CalculateSales {
 
 				//加算した売上⾦額をMapに追加します。
 				branchSales.put(saleItems.get(0), saleAmount);
+				return;
 			} catch(IOException e) {
 				System.out.println(UNKNOWN_ERROR);
+				return;
 			} finally {
 				// ファイルを開いている場合
 				if(br != null) {
@@ -152,6 +154,7 @@ public class CalculateSales {
 						br.close();
 					} catch(IOException e) {
 						System.out.println(UNKNOWN_ERROR);
+						return;
 					}
 				}
 			}
