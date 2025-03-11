@@ -62,25 +62,19 @@ public class CalculateSales {
 		//filesの数だけ繰り返すことで、
 		//指定したパスに存在する全てのファイル(または、ディレクトリ)の数だけ繰り返されます。
 		for(int i = 0; i < files.length ; i++) {
-			if(files[i].getName().matches("^[0-9]{8}.rcd$")) {
-				//対象がファイルかチェック
-				if(files[i].isFile() && files[i].getName().matches("^[0-9]{8}.rcd$")) {
-				    //対象がファイルであり、「数字8桁.rcd」なのか判定します。
-					//売上ファイルの条件に当てはまったものだけ、List(ArrayList) に追加します。
-					rcdFiles.add(files[i]);
-				} else {
-					System.out.println(UNKNOWN_ERROR);
-					return;
-				}
+			if(files[i].isFile() && files[i].getName().matches("^[0-9]{8}.rcd$")) {
+				//対象がファイルであり、「数字8桁.rcd」なのか判定します。
+				//売上ファイルの条件に当てはまったものだけ、List(ArrayList) に追加します。
+				rcdFiles.add(files[i]); 
 			}
 		}
 
 		//売上ファイルの連番チェック
 		//比較回数は売上ファイルの数よりも1回少ないため、 
 		//繰り返し回数は売上ファイルのリストの数よりも1つ小さい数です。
+		Collections.sort(rcdFiles);
 		for(int i = 0; i < rcdFiles.size() - 1; i++) {
 
-			Collections.sort(rcdFiles);
 			int former = Integer.parseInt(rcdFiles.get(i).getName().substring(0, 8));
 			int latter = Integer.parseInt(rcdFiles.get(i + 1).getName().substring(0, 8));
 
@@ -110,21 +104,24 @@ public class CalculateSales {
 				while((line = br.readLine()) != null) {
 					saleItems.add(line);
 				}
-				//支店コードの存在チェック
-				if (!branchNames.containsKey(saleItems.get(0))) {
-					//支店情報を保持しているMapに売上ファイルの支店コードが存在しなかった場合は、
-					//エラーメッセージをコンソールに表示します。
-					System.out.println("<" + rcdFiles.get(i).getName() + ">" + VALUE_NOT_EXIST_BRANCH_CODE);
-					return;
-				}
+
+				String rcdFileName = rcdFiles.get(i).getName();
+
 				//売上ファイルのフォーマットチェック
 				if(saleItems.size() != 2) {
 				    //売上ファイルの行数が2行ではなかった場合は、
 				    //エラーメッセージをコンソールに表示します。
-					System.out.println("<" + rcdFiles.get(i).getName() + ">" + FILE_INVALID_FORMAT_RCD);;
+					System.out.println("<" + rcdFileName + ">" + FILE_INVALID_FORMAT_RCD);;
 					return;
 				}
-				//売上⾦額が数字なのかチェック
+				//支店コードの存在チェック
+				if (!branchNames.containsKey(saleItems.get(0))) {
+					//支店情報を保持しているMapに売上ファイルの支店コードが存在しなかった場合は、
+					//エラーメッセージをコンソールに表示します。
+					System.out.println("<" + rcdFileName + ">" + VALUE_NOT_EXIST_BRANCH_CODE);
+					return;
+				}
+				//売上金額が数字なのかチェック
 				if(!saleItems.get(1).matches("^[0-9]*$")) {
 				    //売上金額が数字ではなかった場合は、
 				    //エラーメッセージをコンソールに表示します。
