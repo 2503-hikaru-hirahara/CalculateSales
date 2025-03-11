@@ -50,7 +50,7 @@ public class CalculateSales {
 		//filesの数だけ繰り返すことで、
 		//指定したパスに存在する全てのファイル(または、ディレクトリ)の数だけ繰り返されます。
 		for(int i = 0; i < files.length ; i++) {
-			if(files[i].getName().matches("^[0-9]{8}+.rcd$")) {
+			if(files[i].getName().matches("^[0-9]{8}.rcd$")) {
 		            //売上ファイルの条件に当てはまったものだけ、List(ArrayList) に追加します。
 				rcdFiles.add(files[i]);
 			}
@@ -63,8 +63,7 @@ public class CalculateSales {
 			BufferedReader br = null;
 
 			try {
-				File file = new File(rcdFiles.get(i).getPath());
-				FileReader fr = new FileReader(file);
+				FileReader fr = new FileReader(rcdFiles.get(i));
 				br = new BufferedReader(fr);
 
 				List<String> saleItems = new ArrayList<String>();
@@ -75,11 +74,9 @@ public class CalculateSales {
 					saleItems.add(line);
 				}
 				//売上ファイルから読み込んだ売上金額をMapに加算していくために、型の変換を行います。
-				//※詳細は後述で説明
 				long fileSale = Long.parseLong(saleItems.get(1));
 
 				//読み込んだ売上⾦額を加算します。
-				//※詳細は後述で説明
 				Long saleAmount = branchSales.get(saleItems.get(0)) + fileSale;
 
 				//加算した売上⾦額をMapに追加します。
@@ -132,7 +129,6 @@ public class CalculateSales {
 			    branchNames.put(items[0], items[1]);
 			    branchSales.put(items[0], 0L);
 			}
-
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
 			return false;
@@ -174,7 +170,6 @@ public class CalculateSales {
 				bw.write(key + "," + branchNames.get(key) +  "," + branchSales.get(key));
 				bw.newLine();
 			}
-
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
 			return false;
