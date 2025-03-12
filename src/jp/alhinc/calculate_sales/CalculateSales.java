@@ -212,7 +212,7 @@ public class CalculateSales {
 	 * @param 支店(商品)コードと支店(商品)名を保持するMap
 	 * @param 支店(商品)コードと売上金額を保持するMap
 	 * @param 支店(商品)コードの正規表現
-	 * @param 支店(商品)コードと売上金額を保持するMap
+	 * @param ファイルの種類
 	 * @return 読み込み可否
 	 */
 	private static boolean readFile(String path, String fileName, Map<String, String> names, Map<String, Long> sales, String regEx, String fileCategory) {
