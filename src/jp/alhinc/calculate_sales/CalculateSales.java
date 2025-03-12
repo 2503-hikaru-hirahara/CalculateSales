@@ -147,7 +147,7 @@ public class CalculateSales {
 				}
 				//商品コードの存在チェック
 				if (!commodityNames.containsKey(saleItems.get(1))) {
-					//商品情報を保持しているMapに商品ファイルの商品コードが存在しなかった場合は、
+					//商品情報を保持しているMapに売上ファイルの商品コードが存在しなかった場合は、
 					//エラーメッセージをコンソールに表示します。
 					System.out.println(rcdFileName + VALUE_NOT_EXIST_COMMODITY_CODE);
 					return;
